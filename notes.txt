@@ -1,0 +1,28 @@
+PIVOT table 
+-- posts
+-- categories
+
+categories_post table (PIVOT table)
+------------------------------------
+post_id             category_id
+1                       1
+1                       3
+1                       5
+2                       6   
+2                       4
+
+categories table
+--------------
+id        name
+1         Travel
+2         Food
+3         Lifestyle
+4         Technology
+5         Career
+6         Movie
+
+posts table
+---------------
+id          title
+1           traveling to Canada [1-travel, 3-Lifestyle, 5-Career]
+2           I like the latest movie!    [6-movie, 4-technology]
