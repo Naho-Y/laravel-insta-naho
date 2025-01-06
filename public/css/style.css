@@ -25,3 +25,9 @@
     height: 3.5rem;
     object-fit: cover;
 }
+
+.image-lg {
+    width: 9rem;
+    height: 9rem;
+    object-fit: cover;
+}

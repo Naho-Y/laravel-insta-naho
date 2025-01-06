@@ -7,7 +7,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\PostsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\CategoriesController;
 
 
 
@@ -65,9 +67,14 @@ Route::group(["middleware"=>"auth"],function(){
         Route::delete('/user/{id}/deactivate',[UsersController::class,'deactivate'])->name('users.deactivate');
         Route::patch('/user/{id}/activate',[UsersController::class,'activate'])->name('users.activate');
 
-        Route::get('/posts',[PostController::class,'index'])->name('posts.index');
-        Route::delete('/post/{id}/hide',[PostController::class,'hide'])->name('posts.hide');
-        Route::patch('/post/{id}/visible',[PostController::class,'visible'])->name('posts.visible');
+        Route::get('/posts', [PostsController::class, 'index'])->name('posts');
+       Route::delete('/posts/{id}/hide', [PostsController::class, 'hide'])->name('posts.hide');
+       Route::patch('/posts/{id}/unhide', [PostsController::class, 'unhide'])->name('posts.unhide');
+
+        Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
+        Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store');
+        Route::patch('/categories/{id}/update', [CategoriesController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{id}/destroy', [CategoriesController::class, 'destroy'])->name('categories.destroy');
     });
 
     

@@ -1,76 +1,71 @@
-<!-- Deactivate Modal -->
-<div class="modal fade" id="hide-post-{{$post->id}}">
-    <div class="modal-dialog border-danger">
-        <div class="modal-content">
-            <div class="modal-header text-danger">
-                <h5 class="modal-title" id="modalTitleId">
-                    <i class="fa-solid fa-ban"></i> Hide Post
+<!-- Hide -->
+<div class="modal fade" id="hide-post-{{ $post->id }}">
+    <div class="modal-dialog">
+        <div class="modal-content border-danger">
+            <div class="modal-header border-danger">
+                <h5 class="modal-title text-danger">
+                        <i class="fa-solid fa-user-slash"></i> Hide Post
                 </h5>
-                {{-- <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button> --}}
             </div>
             <div class="modal-body">
-                {{-- <div class="container-fluid">Add rows here</div> --}}
-                <p class="text-danger">Are you sure to hide this post?</p>
-                <div class="mt-3">
-                    <img src="{{ $post->image }}" alt="{{ $post->description }}" class="img-thumbnail">
-                    <p class="text-muted">{{ $post->description }}</p>
-                </div>
+                Are you sure you want to hide this post?
+                    <div class="mt-3">
+                        <img src="{{ $post->image }}" alt="{{ $post->id }}" class="image-lg">
+                        <p class="mt-1 text-muted">
+                            {{ $post->description }}
+                        </p>
+                    </div>
             </div>
-            <div class="modal-footer">
-                <form action="{{route('admin.posts.hide', $post->id)}}" method="POST">
+            <div class="modal-footer border-0">
+                <form action="{{ route('admin.posts.hide', $post->id) }}" method="post">
                     @csrf
                     @method('DELETE')
 
-                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
+                        Cancel
                     </button>
-                    <button type="submit" class="btn btn-sm btn-danger">Hide</button>
+
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Hide
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Activate Modal -->
-<div class="modal fade" id="visible-post-{{$post->id}}">
-    <div class="modal-dialog border-success">
-        <div class="modal-content">
-            <div class="modal-header text-success">
-                <h5 class="modal-title" id="modalTitleId">
-                    <i class="fa-solid fa-user-slash"></i> Visible Post
+<!-- Unhide -->
+<div class="modal fade" id="unhide-post-{{ $post->id }}">
+    <div class="modal-dialog">
+        <div class="modal-content border-primary">
+            <div class="modal-header border-primary">
+                <h5 class="modal-title text-primary">
+                        <i class="fa-solid fa-user-slash"></i> Unhide Post
                 </h5>
-                {{-- <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button> --}}
             </div>
             <div class="modal-body">
-                {{-- <div class="container-fluid">Add rows here</div> --}}
-                <p class="text-success">Are you sure to Visible? </p>
-                <div class="mt-3">
-                    <img src="{{ $post->image }}" alt="{{ $post->description }}" class="img-thumbnail">
-                    <p class="text-muted">{{ $post->description }}</p>
-                </div>
+                Are you sure you want to unhide this post?
+                    <div class="mt-3">
+                        <img src="{{ $post->image }}" alt="{{ $post->id }}" class="image-lg">
+                        <p class="mt-1 text-muted">
+                            {{ $post->description }}
+                        </p>
+                    </div>
             </div>
-            <div class="modal-footer">
-                <form action="{{route('admin.posts.activate', $post->id)}}" method="POST">
+            <div class="modal-footer border-0">
+                <form action="{{ route('admin.posts.unhide', $post->id) }}" method="post">
                     @csrf
                     @method('PATCH')
 
-                    <button type="button" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">
-                        Close
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">
+                        Cancel
                     </button>
-                    <button type="submit" class="btn btn-sm btn-success">Visible</button>
+
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Unhide
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-

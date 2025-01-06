@@ -1,66 +1,86 @@
 @extends('layouts.app')
 
-@section('title','Admin::Users')
+@section('title', 'Admin: Categories')
 
 @section('content')
+    <form action="{{route('admin.categories.store')}}" method="post">
+        @csrf
 
-<table class="table table-hover align-middle bg-white border text-secondry">
-    <thead class="small table-success text-secondry">
-        <th></th>
-        <th>NAME</th>
-        <th>EMAIL</th>
-        <th>CREATED AT</th>
-        <th>STATUS</th>
-        <th></th>
-    </thead>
-    <tbody>
-        @foreach ($all_users as $user)
-            <tr>
-                <td>
-                    @if ($user->avatar)
-                        <img src="{{$user->avatar}}" alt="{{$user->name}}" class="rounded-circle d-block avatar-md mx-auto"> 
-                    @else
-                        <i class="fa-solid fa-circle-user d-block text-center icon-md"></i>
-                    @endif
-                </td>
-                <td>
-                    <a href="{{route('profile.show', $user->id)}}" class="text-dark text-decoration-none fw-bold">{{$user->name}}</a>
-                </td>
-                <td>{{$user->email}}</td>
-                <td>{{$user->created_at->diffForHumans()}}</td>
-                <td>
-                    @if ($user->trashed())
-                        <i class="fa-solid fa-circle text-danger"></i>
-                    @else
-                        <i class="fa-solid fa-circle text-success"></i>
-                    @endif
-                </td>
-                <td>
-                    @if (Auth::user()->id !== $user->id)
-                        <div class="dropdown">
-                            <button class="btn btn-sm" data-bs-toggle="dropdown">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </button>
+        <div class="row gx-2 mb-4">
+            <div class="col-4">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Add a category" autofocus>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Add
+                </button>
+            </div>
+            {{-- ERROR --}}
+            @error('name')
+                <p class="text-danger small">{{$message}}</p>
+            @enderror
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-8">
+            <table class="table table-hover align-middle bg-white border table-sm text-secondary text-center">
+                <thead class="table-warning small text-secondary">
+                    <th>#</th>
+                    <th>NAME</th>
+                    <th>COUNT</th>
+                    <th>LAST UPDATED</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @forelse ($all_categories as $category)
+                        <tr>
+                            <td>
+                                {{$category->id}}
+                            </td>
+                            <td class="text-dark">
+                                {{$category->name}}
+                            </td>
+                            <td>
+                                {{$category->categoryPost->count()}}
+                            </td>
+                            <td>
+                                {{$category->updated_at}}
+                            </td>
+                            <td>
+                                {{-- Edit Button --}}
+                                <button class="btn btn-outline-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#edit-category-{{$category->id}}" title="Edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
 
-                            <div class="dropdown-menu">
-                                @if ($user->trashed())
-                                    <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#activate-user-{{$user->id}}">
-                                        <i class="fa-solid fa-user-slash"></i> Activate {{$user->name}}
-                                    </button>
-                                @else
-                                    <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deactivate-user-{{$user->id}}">
-                                        <i class="fa-solid fa-user-slash"></i> Deactivate {{$user->name}}
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
-
-                        @include('admin.users.modals.status')
-                    @endif
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-
+                                {{-- Delete Button --}}
+                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-category-{{$category->id}}" title="Delete">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {{-- Include the modal here --}}
+                        @include('admin.categories.modals.action')
+                    @empty
+                        <tr>
+                            <td class="lead text-muted text-center">
+                                No Categories Found!
+                            </td>
+                        </tr>
+                    @endforelse
+                    <tr>
+                        <td colspan="2" class="text-dark">
+                            Uncategorized
+                            <p class="xsmall mb-0 text-muted">
+                                Hidden posts are not included.
+                            </p>
+                        </td>
+                        <td>
+                            {{$uncategorized_count}}
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
